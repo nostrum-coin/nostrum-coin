@@ -1,3 +1,3 @@
 ## Nostrum coin
 
-[Python client](client-python)
+- [Python client](client-python)
