@@ -4,6 +4,13 @@ import sys
 from getpass import getpass
 from nostrum_wallet import NostrumWallet
 
+
+import logging
+logging.basicConfig(filename='error.log', filemode="w", level=logging.DEBUG, 
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+logger=logging.getLogger(__name__)
+
+
 AVAX_EXPLORER = "https://testnet.snowtrace.io"
 
 def get_wallet():
@@ -187,48 +194,59 @@ def main():
     nostrumWallet = NostrumWallet(wallet_adress=wallet)
     
     while True:
-        option = print_menu(nostrumWallet)
+        try:
 
-        if option == 0:
-            private_key = get_private_key()
-            nostrumWallet.set_private_key(private_key)
-        elif option == 1:
-            print_election_stats(nostrumWallet.client)
-        elif option == 2:
-            if not nostrumWallet.voted():
-                tx_vote = vote_process(nostrumWallet)
-                if tx_vote == None:
-                    print("There was a problem with your vote")
+            option = print_menu(nostrumWallet)
+
+            if option == 0:
+                private_key = get_private_key()
+                nostrumWallet.set_private_key(private_key)
+            
+            elif option == 1:
+                print_election_stats(nostrumWallet.client)
+            
+            elif option == 2 and nostrumWallet.private_key != None:
+                if not nostrumWallet.voted():
+                    tx_vote = vote_process(nostrumWallet)
+                    if tx_vote == None:
+                        print("There was a problem with your vote")
+                    else:
+                        print("Vote transaction sent !!!")
+                        print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_vote))
+                        print("Thanks for your vote")
                 else:
-                    print("Vote transaction sent !!!")
-                    print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_vote))
-                    print("Thanks for your vote")
-            else:
-                print("You already voted in the current election!")
-        elif option == 3:
-            if nostrumWallet.stacked_value() <= 0:
-                tx_stake = stake_process(nostrumWallet)
-                if tx_stake == None:
-                    print("There was a problem in your stake process")
+                    print("You already voted in the current election!")
+            
+            elif option == 3 and nostrumWallet.private_key != None:
+                if nostrumWallet.stacked_value() <= 0:
+                    tx_stake = stake_process(nostrumWallet)
+                    if tx_stake == None:
+                        print("There was a problem in your stake process")
+                    else:
+                        print("Stake transaction sent !!!")
+                        print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_stake))
+                        print("It may take a while for the network to confirm your stake")
                 else:
-                    print("Stake transaction sent !!!")
-                    print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_stake))
-                    print("It may take a while for the network to confirm your stake")
-            else:
-                print("You need to unstake your Nostrum in order to stake again")
-        elif option == 4:
-            if nostrumWallet.stacked_value() > 0:
-                tx_unstake = unstake_process(nostrumWallet)
-                if tx_unstake == None:
-                    print("There was a problem in your unstake process")
+                    print("You need to unstake your Nostrum in order to stake again")
+            
+            elif option == 4 and nostrumWallet.private_key != None:
+                if nostrumWallet.stacked_value() > 0:
+                    tx_unstake = unstake_process(nostrumWallet)
+                    if tx_unstake == None:
+                        print("There was a problem in your unstake process")
+                    else:
+                        print("Unstake transaction sent !!!")
+                        print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_unstake))
+                        print("It may take a while for the network to confirm your unstake")
                 else:
-                    print("Unstake transaction sent !!!")
-                    print("Check transaction in: ", AVAX_EXPLORER+"/tx/0x"+str(tx_unstake))
-                    print("It may take a while for the network to confirm your unstake")
+                    print("You do not have Nostrum staked")
             else:
-                print("You do not have Nostrum staked")
-        else:
-            pass
+                pass
+
+        except Exception as e:
+            logger.error(e)
+            print(e)
+            sys.exit()
 
 if __name__ == '__main__':
     main()
