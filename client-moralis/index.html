@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nostrum Moralis client</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="index.css" rel="stylesheet">
+    <script src="graph.js"></script>
+  </head>
+
+  <body class="backcolor">
+
+    <div class="container pb-5">
+      
+      <div class="row align-items-center pt-4 pb-4">
+        
+        <div class="col-2">
+          <img src="./images/desenho.svg" height="100" alt="...">
+        </div>
+
+        <div class="col-10">
+          <div class="row">
+            <h1 class="textcolor"> Nostrum Wallet <small class="text-muted">Moralis</small> <button type="button" id="btn-login" class="btn btn-sm btn-success">Connect</button> </h1>
+          </div>
+          <div class="row m-0">
+            <p id="infolabel" class="textcolor">...</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row align-items-center">
+
+        <div class="col-8">
+          <div class="row">
+            <div class="col-1">
+              <img src="./images/avax.png" height="45" alt="...">
+            </div>
+            <div class="col-7 pb-2">
+              <h1 class="display-6 m-0 textcolor">Avax balance</h1>
+            </div>
+            <div class="col-4">
+              <div class="placeholder-glow">
+                <h1 id="avaxbalance" class="display-6 m-0 textcolor placeholder">0000000</h1>
+              </div>
+            </div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-1">
+              <img src="./images/desenho.svg" height="50" alt="...">
+            </div>
+            <div class="col-7">
+              <h1 class="display-6 m-0 textcolor">Nostrum balance</h1>
+            </div>
+            <div class="col-4">
+              <div class="placeholder-glow">
+                <h1 id="nostrumbalance" class="display-6 m-0 textcolor placeholder">0000000</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-4">
+          <div class="row pb-1">
+            <button id="sendbtn" type="button" class="btn buttoncolor fs-4"><i class="iconsend"></i>Send</button>
+          </div>
+          <div class="row pb-1">
+            <button id="stackbtn" type="button" class="btn buttoncolor fs-4"><i class="iconstack"></i>Stack</button>
+          </div>
+          <div class="row pb-1">
+            <button id="unstackbtn" type="button" class="btn buttoncolor fs-4"><i class="iconunstack"></i>UnStack</button>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <h3 class="m-0 pt-5 pb-4 textcolor">Election</h3>
+      </div>
+
+
+      <div class="row align-items-center">
+
+        <div class="col-8">
+          <div class="row">
+            <div id="graphcanvas"></div>
+          </div>
+          <div class="row">
+            <p>
+              <!-- Voted:True Election time -->
+            </p>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="row pb-1">
+            <fieldset>
+              <div class="textcolor">Time next election:</div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                <label class="form-check-label textcolor" for="inlineRadio1">1 week</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
+                <label class="form-check-label textcolor" for="inlineRadio2">4 weeks</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3">
+                <label class="form-check-label textcolor" for="inlineRadio3">8 weeks</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="4">
+                <label class="form-check-label textcolor" for="inlineRadio4">26 weeks</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="5">
+                <label class="form-check-label textcolor" for="inlineRadio5">52 weeks</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="0">
+                <label class="form-check-label textcolor" for="inlineRadio6">None</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="row pb-1">
+            <fieldset>
+              <div class="textcolor">Burn percentage:</div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio21" value="1">
+                <label class="form-check-label textcolor" for="inlineRadio21">0%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio22" value="2">
+                <label class="form-check-label textcolor" for="inlineRadio22">0.1%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio23" value="3">
+                <label class="form-check-label textcolor" for="inlineRadio23">0.5%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio24" value="4">
+                <label class="form-check-label textcolor" for="inlineRadio24">1%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio25" value="5">
+                <label class="form-check-label textcolor" for="inlineRadio25">2%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio26" value="0">
+                <label class="form-check-label textcolor" for="inlineRadio26">None</label>
+              </div>
+            </fieldset>
+          </div>
+          
+          <div class="row pb-4">
+            <fieldset>
+              <div class="textcolor">Stack percentage:</div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio31" value="1">
+                <label class="form-check-label textcolor" for="inlineRadio31">0%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio32" value="2">
+                <label class="form-check-label textcolor" for="inlineRadio32">1%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio33" value="3">
+                <label class="form-check-label textcolor" for="inlineRadio33">3%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio34" value="4">
+                <label class="form-check-label textcolor" for="inlineRadio34">5%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio35" value="5">
+                <label class="form-check-label textcolor" for="inlineRadio35">10%</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio36" value="0">
+                <label class="form-check-label textcolor" for="inlineRadio36">None</label>
+              </div>
+            </fieldset>
+          </div>
+          
+          <div class="row pb-1">
+            <button id="votebtn" type="button" class="btn buttoncolor fs-4"><i class="iconvote"></i>Vote</button>
+          </div>
+        </div>
+
+      </div>
+
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="erroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="stackModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Stack Nostrum</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <h3>Stack Nostrum</h3>
+          Value: <input type="number" class="form-control" id="nostrumStackValueInp" placeholder="0">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="btn-stacksubmit" type="button" class="btn btn-primary" data-bs-dismiss="modal">Stack</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+    <div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel3">Nostrum Wallet</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-msg">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="unStackModal" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel4">UnStack Nostrum</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <h3>Stack Nostrum</h3>
+          Value: <input type="number" class="form-control" id="nostrumUnStackValueInp" placeholder="0">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="btn-unstacksubmit" type="button" class="btn btn-primary" data-bs-dismiss="modal">UnStack</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="sendModal" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel5">Send Nostrum</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h3>Send Nostrum</h3>
+            Amount: <input type="number" class="form-control" id="nostrumSendAmountInp" placeholder="0.0">
+            Address: <input type="text" class="form-control" id="nostrumSendAdressInp" placeholder="0xc052536406c6edff042f4279849c9a824f58b066">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="btn-sendsubmit" type="button" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="./main.js"></script>
+    <script type="text/javascript" src="./contract.js"></script>
+    <script type="text/javascript">
+      document.onreadystatechange = function () {
+        if (document.readyState == "complete"){
+          drawGraph(groupDatag, 600,300);
+          updateUserData();
+          document.getElementById("btn-login").onclick = login;
+          document.getElementById("stackbtn").onclick = showStackInput;
+          document.getElementById("btn-stacksubmit").onclick = stackValue;
+          document.getElementById("unstackbtn").onclick = showUnStackInput;
+          document.getElementById("btn-unstacksubmit").onclick = unStackValue;
+          document.getElementById("votebtn").onclick = vote;
+          document.getElementById("sendbtn").onclick = showSendInput;
+          document.getElementById("btn-sendsubmit").onclick = send;
+        }
+      }
+    </script>
+  </body>
+</html>
