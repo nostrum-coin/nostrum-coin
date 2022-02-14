@@ -34,9 +34,9 @@ class NostrumWallet:
     def earnings_from_staking(self):
         return self.client.get_interesting(self.wallet_adress)
 
-    def vote(self, vVtIdx, vBrIdx, vDtIdx, gas=None, gasPrice=None):
+    def vote(self, vVtIdx, powerVt, vBrIdx, powerBr, vDtIdx, powerDt, gas=None, gasPrice=None):
         if self.private_key is not None:
-            vote_transaction = self.client.vote(self.wallet_adress, vVtIdx, vBrIdx, vDtIdx, gas=gas, gasPrice=gasPrice)
+            vote_transaction = self.client.vote(self.wallet_adress, vVtIdx, powerVt, vBrIdx, powerBr, vDtIdx, powerDt, gas=gas, gasPrice=gasPrice)
             txn_str = self.send_sign_transaction(vote_transaction)
             return txn_str
         return None

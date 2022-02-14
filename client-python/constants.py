@@ -3,6 +3,11 @@ class NostrumConstants:
     burn_rate_list = ["0%", "0.1%", "0.5%", "1%", "2%"]
     stack_earn_list = ["0%", "1%", "3%", "5%", "10%"]
 
+    avax_net = "https://api.avax.network/ext/bc/C/rpc"
+    contract_address = "0x1C4B61d0Be6A061eA844cc0619D6887ba0f1Dc5b"
+    chain_id = 43114
+    digit_divisor = 10 ** 18
+
     @staticmethod
     def burn_to_str(burn_rate):
         return str(burn_rate / 1000.0) + "%"

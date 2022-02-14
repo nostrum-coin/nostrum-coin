@@ -7,10 +7,6 @@ from web3.middleware import geth_poa_middleware
 
 class NostrumClient:
 
-    avax_net = "https://api.avax-test.network/ext/bc/C/rpc"
-    contract_address = "0xC052536406c6edFF042F4279849C9a824f58b066"
-    chain_id = 43113
-    digit_divisor = 10 ** 18
     web3 = None
     contract = None
 
@@ -21,24 +17,24 @@ class NostrumClient:
         
 
     def connect(self):
-        self.web3 = Web3(Web3.HTTPProvider(self.avax_net))
+        self.web3 = Web3(Web3.HTTPProvider(NostrumConstants.avax_net))
         self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
         return self.web3.isConnected()
 
     def init_nostrum_contract(self):
         with open('abi.json') as json_file:
             abi = json.load(json_file)
-        self.contract = self.web3.eth.contract(address=self.contract_address, abi=abi)
+        self.contract = self.web3.eth.contract(address=NostrumConstants.contract_address, abi=abi)
 
     def get_avax_balance(self, address):
-        return self.web3.eth.get_balance(address) / self.digit_divisor
+        return self.web3.eth.get_balance(address) / NostrumConstants.digit_divisor
 
     def get_nostrum_balance(self, address):
         sum_address = self.web3.toChecksumAddress(address)
-        return self.contract.functions.balanceOf(sum_address).call()  / self.digit_divisor
+        return self.contract.functions.balanceOf(sum_address).call()  / NostrumConstants.digit_divisor
 
     def get_nostrum_total(self):
-        return self.contract.functions.totalSupply().call() / self.digit_divisor
+        return self.contract.functions.totalSupply().call() / NostrumConstants.digit_divisor
 
     def get_contract_tick(self):
         return self.contract.functions.getContractTick().call()
@@ -47,13 +43,13 @@ class NostrumClient:
         return self.contract.functions.getTimePassed().call()
 
     def get_votes_time(self, idx):
-        return self.contract.functions.getPowerVoteTime(idx).call() / self.digit_divisor
+        return self.contract.functions.getPowerVoteTime(idx).call() / NostrumConstants.digit_divisor
 
     def get_votes_burn(self, idx):
-        return self.contract.functions.getPowerBurnRate(idx).call() / self.digit_divisor
+        return self.contract.functions.getPowerBurnRate(idx).call() / NostrumConstants.digit_divisor
 
     def get_votes_stack(self, idx):
-        return self.contract.functions.getPowerDailyTax(Web3.toInt(idx)).call() / self.digit_divisor
+        return self.contract.functions.getPowerDailyTax(Web3.toInt(idx)).call() / NostrumConstants.digit_divisor
 
     def check_voted(self, address):
         sum_address = self.web3.toChecksumAddress(address)
@@ -70,7 +66,7 @@ class NostrumClient:
 
     def get_stacked_value(self, address):
         sum_address = self.web3.toChecksumAddress(address)
-        return self.contract.functions.getStackedValue(sum_address).call() / self.digit_divisor
+        return self.contract.functions.getStackedValue(sum_address).call() / NostrumConstants.digit_divisor
 
     def get_days_passed(self, address):
         sum_address = self.web3.toChecksumAddress(address)
@@ -78,28 +74,28 @@ class NostrumClient:
 
     def get_interesting(self, address):
         sum_address = self.web3.toChecksumAddress(address)
-        return self.contract.functions.getInteresting(sum_address).call() / self.digit_divisor
+        return self.contract.functions.getInteresting(sum_address).call() / NostrumConstants.digit_divisor
 
-    def vote(self, address, vVtIdx, vBrIdx, vDtIdx, gas, gasPrice):
-        voteFunc = self.contract.functions.doVote(vVtIdx, vBrIdx, vDtIdx)
+    def vote(self, address, vVtIdx, powerVt, vBrIdx, powerBr, vDtIdx, powerDt, gas, gasPrice):
+        voteFunc = self.contract.functions.doVote(vVtIdx, int(powerVt*NostrumConstants.digit_divisor), vBrIdx, int(powerBr*NostrumConstants.digit_divisor), vDtIdx, int(powerDt*NostrumConstants.digit_divisor))
         voteT = self.build_transaction(voteFunc, address, gas, gasPrice)
         return voteT
     
     def stake(self, address, amount, gas, gasPrice):
-        int_amount = int(self.digit_divisor * amount)
+        int_amount = int(NostrumConstants.digit_divisor * amount)
         stakeFunc = self.contract.functions.doStake(int_amount)
         stakeT = self.build_transaction(stakeFunc, address, gas, gasPrice)
         return stakeT
 
     def unstake(self, address, amount, gas, gasPrice):
-        int_amount = int(self.digit_divisor * amount)
+        int_amount = int(NostrumConstants.digit_divisor * amount)
         unstakeFunc = self.contract.functions.unStake(int_amount)
         unstakeT = self.build_transaction(unstakeFunc, address, gas, gasPrice)
         return unstakeT
 
     def build_transaction(self, function, address, gas, gasPrice):
         t = function.buildTransaction({
-                'chainId': self.chain_id, 
+                'chainId': NostrumConstants.chain_id, 
                 'gas': 300000,
                 'maxFeePerGas': self.web3.toWei('30', 'gwei'),
                 'nonce': self.web3.eth.getTransactionCount(address)

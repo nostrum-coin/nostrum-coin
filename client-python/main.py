@@ -11,7 +11,7 @@ logging.basicConfig(filename='error.log', filemode="w", level=logging.DEBUG,
 logger=logging.getLogger(__name__)
 
 
-AVAX_EXPLORER = "https://testnet.snowtrace.io"
+AVAX_EXPLORER = "https://snowtrace.io"
 
 def get_wallet():
     print("==== Nostrum Wallet ====")
@@ -98,6 +98,8 @@ def vote_process(nostrum_wallet : NostrumWallet):
     print("\n")
     print("==== Vote ====")
     print("Note: you can vote \'null\' choosing option 0")
+    
+    
     print("--- Vote for next election time ---")
     for i in range(1, 6):
         print(i, "-", NostrumConstants.vote_time_list[i-1])
@@ -108,6 +110,11 @@ def vote_process(nostrum_wallet : NostrumWallet):
     else:
         print("Your vote:",  NostrumConstants.vote_time_list[vote_id-1])
     print("-------------")
+    vote_power_vt = input("How much Nostrum do you want to spend in this vote? (use \'.\' for decimal):")
+    vote_power_vt = float(vote_power_vt)
+    print("-------------")
+    
+    
     print("--- Vote for next burn rate ---")
     for i in range(1, 6):
         print(i, "-", NostrumConstants.burn_rate_list[i-1])
@@ -118,30 +125,49 @@ def vote_process(nostrum_wallet : NostrumWallet):
     else:
         print("Your vote:",  NostrumConstants.burn_rate_list[vote_id_br-1])
     print("-------------")
+    vote_power_br = input("How much Nostrum do you want to spend in this vote? (use \'.\' for decimal):")
+    vote_power_br = float(vote_power_br)
+    print("-------------")
+    
+    
     print("--- Vote for next staking percentage APR ---")
     for i in range(1, 6):
         print(i, "-", NostrumConstants.stack_earn_list[i-1])
     vote_id_sp = input("Choose one option:")
     vote_id_sp = int(vote_id_sp)
     if vote_id_sp == 0:
-        print("You choose vote null for next burn rate (your vote will be ignored)")
+        print("You choose vote null for next stack percentage (your vote will be ignored)")
     else:
         print("Your vote:",  NostrumConstants.stack_earn_list[vote_id_sp-1])
     print("-------------")
+    vote_power_sp = input("How much Nostrum do you want to spend in this vote? (use \'.\' for decimal):")
+    vote_power_sp = float(vote_power_sp)
+    print("-------------")
+
+
     print("Finish your vote")
-    print("1. Done! Send vote transaction! (default fees: 300000 gas, 30 nAVAX max fee/gas)")
+
+    total_power = vote_power_vt + vote_power_br + vote_power_sp
+
+    print("Cost:", total_power, "Nostrum")
+
+    if total_power > nostrum_wallet.get_nostrum_balance():
+        print("You dont have enough Nostrum")
+        return None
+
+    print("1. Done! Send vote transaction! Cost:", total_power ,"Nostrum (default fees: 300000 gas, 30 nAVAX max fee/gas)")
     print("2. Set fees for Avax network")
     finish_op = input("Choose one option:")
     finish_op = int(finish_op)
     if finish_op == 1:
-        return nostrum_wallet.vote(vote_id, vote_id_br, vote_id_sp)
+        return nostrum_wallet.vote(vote_id, vote_power_vt, vote_id_br, vote_power_br, vote_id_sp, vote_power_sp)
     elif finish_op == 2:
         user_gas, user_fee = get_user_fees()
         print("1. Done! Send vote transaction using new fees")
         finish_op = input("Choose one option:")
         finish_op = int(finish_op)
         if finish_op == 1:
-            return nostrum_wallet.vote(vote_id, vote_id_br, vote_id_sp, gas=user_gas, gasPrice=user_fee)
+            return nostrum_wallet.vote(vote_id, vote_power_vt, vote_id_br, vote_power_br, vote_id_sp, vote_id_sp, gas=user_gas, gasPrice=user_fee)
     return None
 
 def stake_process(nostrum_wallet : NostrumWallet):
