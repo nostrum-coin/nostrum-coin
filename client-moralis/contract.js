@@ -798,6 +798,10 @@ async function unStackValue() {
     }
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function setChart() {
     let user = Moralis.User.current();
 
@@ -815,6 +819,8 @@ async function setChart() {
 			let votes_idx_i = await Moralis.Web3API.native.runContractFunction(options);
 			votes_idx_i = votes_idx_i / (10**18);
 			votesTime[i-1] = votes_idx_i;
+			console.log(i, votesTime[i-1]);
+			await sleep(2000);
 		}
 
 		for (var i = 1; i <= 5; i++) {
@@ -834,6 +840,7 @@ async function setChart() {
 			let votes_idx_i = await Moralis.Web3API.native.runContractFunction(options);
 			votes_idx_i = votes_idx_i / (10**18);
 			votesBurn[i-1] = votes_idx_i;
+			await sleep(2000);
 		}
 
 		let votesStack = [0,0,0,0,0]
@@ -849,10 +856,10 @@ async function setChart() {
 			let votes_idx_i = await Moralis.Web3API.native.runContractFunction(options);
 			votes_idx_i = votes_idx_i / (10**18);
 			votesStack[i-1] = votes_idx_i;
+			await sleep(2000);
 		}
 
 		for (var i = 1; i <= 5; i++) {
-			console.log(i, votesTime[i-1]);
 			groupDatag[0].values[i-1].grpValue = votesTime[i-1];
 		}
 
