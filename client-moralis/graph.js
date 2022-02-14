@@ -75,7 +75,7 @@ function drawGraph(groupData, widthBase, heightBase) {
         .call(yAxis)
 
 
-    svg.select('.y').transition().duration(500).delay(1300).style('opacity','1');
+    svg.select('.y').transition().duration(2000).delay(100).style('opacity','1');
 
     var slice = svg.selectAll(".slice")
         .data(groupData)
@@ -105,7 +105,7 @@ function drawGraph(groupData, widthBase, heightBase) {
     slice.selectAll("rect")
         .transition()
         .delay(100)
-        .duration(500)
+        .duration(2000)
         .attr("y", function(d) { return y(d.grpValue); })
         .attr("height", function(d) { return height - y(d.grpValue); });
 

@@ -1,4 +1,5 @@
-addressContract = "0x3C796409b6B6702a0A4917D270EC53e9326e5CeD"
+addressContract = "0x1C4B61d0Be6A061eA844cc0619D6887ba0f1Dc5b"
+contractChain = "avalanche"
 
 const ABI = [
 	{
@@ -32,6 +33,68 @@ const ABI = [
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "DOMAIN_SEPARATOR",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -53,6 +116,25 @@ const ABI = [
 			}
 		],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -84,6 +166,19 @@ const ABI = [
 		"name": "burnFrom",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -137,14 +232,29 @@ const ABI = [
 				"type": "uint32"
 			},
 			{
+				"internalType": "uint256",
+				"name": "powerVt",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint32",
 				"name": "vBrIdx",
 				"type": "uint32"
 			},
 			{
+				"internalType": "uint256",
+				"name": "powerBr",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint32",
 				"name": "vDtIdx",
 				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "powerDt",
+				"type": "uint256"
 			}
 		],
 		"name": "doVote",
@@ -156,239 +266,6 @@ const ABI = [
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "addedValue",
-				"type": "uint256"
-			}
-		],
-		"name": "increaseAllowance",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "deadline",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "v",
-				"type": "uint8"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "r",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "s",
-				"type": "bytes32"
-			}
-		],
-		"name": "permit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "unStake",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "decimals",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "DOMAIN_SEPARATOR",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -407,38 +284,6 @@ const ABI = [
 	{
 		"inputs": [],
 		"name": "getContractTick",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getdailyTax",
-		"outputs": [
-			{
-				"internalType": "uint32",
-				"name": "",
-				"type": "uint32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "stakeadress",
-				"type": "address"
-			}
-		],
-		"name": "getdaysPassed",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -558,6 +403,19 @@ const ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getVoteTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -577,8 +435,56 @@ const ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getVotesAdrs",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "getVoteTime",
+		"name": "getdailyTax",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "stakeadress",
+				"type": "address"
+			}
+		],
+		"name": "getdaysPassed",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -587,6 +493,30 @@ const ABI = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -622,6 +552,49 @@ const ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "permit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "symbol",
 		"outputs": [
@@ -646,6 +619,78 @@ const ABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "unStake",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]
 
@@ -653,7 +698,7 @@ async function getTimeVotes() {
     let user = Moralis.User.current();
     if (user) {
         const options = {
-            chain: "avalanche testnet",
+            chain: contractChain,
             address: addressContract,
             function_name: "getPowerVoteTime",
             abi: ABI,
@@ -670,7 +715,7 @@ async function setInfo() {
 
     if (user) {
         const options = {
-            chain: "avalanche testnet",
+            chain: contractChain,
             address: addressContract,
             function_name: "getStackedValue",
             abi: ABI,
@@ -698,7 +743,7 @@ async function stackValue() {
 		let amount = (valueInput.value * (10**18))
 
         const options = {
-            chain: "avalanche testnet",
+            chain: contractChain,
             contractAddress: addressContract,
             functionName: "doStake",
             abi: ABI,
@@ -734,7 +779,7 @@ async function unStackValue() {
 		let amount = (valueInput.value * (10**18))
 
         const options = {
-            chain: "avalanche testnet",
+            chain: contractChain,
             contractAddress: addressContract,
             functionName: "unStake",
             abi: ABI,
@@ -761,7 +806,7 @@ async function setChart() {
 	
 		for (var i = 1; i <= 5; i++) {
 			const options = {
-				chain: "avalanche testnet",
+				chain: contractChain,
 				address: addressContract,
 				function_name: "getPowerVoteTime",
 				abi: ABI,
@@ -780,7 +825,7 @@ async function setChart() {
 
 		for (var i = 1; i <= 5; i++) {
 			const options = {
-				chain: "avalanche testnet",
+				chain: contractChain,
 				address: addressContract,
 				function_name: "getPowerBurnRate",
 				abi: ABI,
@@ -795,7 +840,7 @@ async function setChart() {
 
 		for (var i = 1; i <= 5; i++) {
 			const options = {
-				chain: "avalanche testnet",
+				chain: contractChain,
 				address: addressContract,
 				function_name: "getPowerDailyTax",
 				abi: ABI,
@@ -821,21 +866,32 @@ async function setChart() {
     }
 
 	d3.select('#graphcanvas').select("svg").remove();
-	drawGraph(groupDatag, 600,300);
+	drawGraph(groupDatag, 600,400);
 }
 
 async function vote(){
 	let valueTimeVote = document.querySelector('input[name="inlineRadioOptions"]:checked').value;
 	let valueBurnVote = document.querySelector('input[name="inlineRadioOptions2"]:checked').value;
 	let valueStackVote = document.querySelector('input[name="inlineRadioOptions3"]:checked').value;
+	let powerVt = document.getElementById('powervt').value;
+	let powerBr = document.getElementById('powerbr').value;
+	let powerSp = document.getElementById('powersp').value;
+
+	if ((valueTimeVote != null) && (valueBurnVote != null) && (valueStackVote != null) && 
+		(powerVt != null) && (powerBr != null) && (powerSp != null) &&
+		(powerVt > 0) && (powerBr > 0) && (powerSp > 0)
 	
-	if ((valueTimeVote != null) && (valueBurnVote != null) && (valueStackVote != null) ){
+	){
+		let amountVt = (powerVt * (10**18))+""
+		let amountBr = (powerBr * (10**18))+""
+		let amountSp = (powerSp * (10**18))+""
+
 		const options = {
-            chain: "avalanche testnet",
+            chain: contractChain,
             contractAddress: addressContract,
             functionName: "doVote",
             abi: ABI,
-            params: {'vVtIdx': valueTimeVote+"", 'vBrIdx': valueBurnVote+"", 'vDtIdx': valueStackVote+""}
+            params: {'vVtIdx': valueTimeVote+"", 'powerVt': amountVt, 'vBrIdx': valueBurnVote+"", 'powerBr':amountBr, 'vDtIdx': valueStackVote+"", 'powerDt': amountSp}
         };
         await Moralis.executeFunction(options).then(function (confirm) {
 			showMsg("Voted!");
@@ -879,5 +935,34 @@ async function send(){
 				showError(error.message)
 			console.log(error);
 		});
+	}
+}
+
+async function setElectionTime(){
+	let electionTimeElem = document.getElementById('hourstofinish')
+
+	if(electionTimeElem != null){
+		const options = {
+            chain: contractChain,
+            address: addressContract,
+            function_name: "getTimePassed",
+            abi: ABI,
+            params: {}
+        };
+        let timePassed = await Moralis.Web3API.native.runContractFunction(options);
+
+		const options2 = {
+            chain: contractChain,
+            address: addressContract,
+            function_name: "getVoteTime",
+            abi: ABI,
+            params: {}
+        };
+        let votetimeactual = await Moralis.Web3API.native.runContractFunction(options2);
+
+		let secondstofinish = votetimeactual - timePassed;
+		let hourstofinish = (secondstofinish / 60 / 60).toFixed(2);
+
+        electionTimeElem.innerHTML = hourstofinish;
 	}
 }

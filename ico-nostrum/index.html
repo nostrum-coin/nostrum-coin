@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nostrum ICO</title>
+    <link rel="icon" type="image/x-icon" href="./images/desenho.svg">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body class="backcolor">
+
+    <div class="container pb-5">
+      
+      <div class="row align-items-center pt-4 pb-4">
+        
+        <div class="col-2">
+          <img src="./images/desenho.svg" height="100" alt="...">
+        </div>
+
+        <div class="col-10">
+          <div class="row">
+            <h1 class="textcolor"> Nostrum Coin <small class="text-muted">ICO</small> <button type="button" id="btn-login" class="btn btn-sm btn-success">Connect with Metamask</button> </h1>
+          </div>
+          <div class="row m-0">
+            <p id="infolabel" class="textcolor">
+              <a href="https://nostrumcoin.org/" target="_blank">Site</a>
+              |
+              <a href="https://github.com/nostrum-coin/nostrum-coin" target="_blank">Github</a>
+              |
+              <a href="https://twitter.com/nostrum_coin" target="_blank">Twitter</a>
+              |
+              <a href="https://info.pangolin.exchange/#/token/0x1c4b61d0be6a061ea844cc0619d6887ba0f1dc5b" target="_blank">Buy/Sell on Pangolin</a>
+              |
+              <a href="#" onclick="addTokenMetamask()"> Add Nostrum on Metamask </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row pt-5 pb-5">
+      </div>
+
+      <div class="row pb-5">
+
+        <div class="row">
+          <div class="col-10">
+            <div class="progress p-0" style="height: 50px;">
+              <!--3000.0-->
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="raisedprogressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 3%">0%</div>
+            </div>
+          </div>
+          <div class="col-2">
+            <button id="buyicobtn" type="button" class="btn btn-primary btn-lg" disabled>Buy Nostrum</button>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="col-3">
+            <div class="textcolor">1 Nostrum = 0.0000005 AVAX</div>
+          </div>
+          <div class="col-3">
+            <div class="textcolor">Total Supply: 10 billion Nostrum</div>
+          </div>
+          <div class="col-3">
+            <div class="textcolor">ICO Supply: 6 billion (60%)</div>
+          </div>
+          <div class="col-3">
+            <div class="placeholder-glow">
+              <div class="textcolor">Current market cap: <span id="avaxraised" class="placeholder">0.00000</span> AVAX</div>
+            </div>
+          </div>
+        </div>
+         
+      </div>
+
+
+      <div class="row pt-5 pb-5">
+        <div class="col-6">
+          <div class="textcolor"> 
+            <img src="./images/avax.png" style="padding-right: 10px;" height="45" alt="..."> 
+            <h4 style="display:inline">How buy AVAX (with Metamask)</h4>
+          </div>
+          <hr>
+          <div class="textcolor">
+            <ol>
+              <li>Make sure Metamask is connected to Avalanche. <br> <a href="https://www.youtube.com/watch?v=KOgux1_2dFY" target="_blank">Connecting Avalanche to MetaMask | Avalanche Tutorials</a></li><br>
+              <li>You can buy AVAX in a exchange like <a href="https://app.pangolin.exchange/" target="_blank">Pangolin</a> (or another <a href="https://ecosystem.avax.network/marketplace?tag=exchange" target="_blank">exchange</a>), and send to your Metamask wallet. </li>
+            </ol>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="textcolor">
+            <img src="./images/desenho.svg" style="padding-right: 10px;" height="50" alt="...">
+            <h4 style="display:inline">How buy Nostrum on ICO</h4>
+          </div>
+          <hr>
+          <div class="textcolor">
+            <ul>
+              <li>Just send AVAX to the adress: <b>0xad2cdB41787c834Bd71Fa325900f2e5C6299793B</b> <br><br> The Nostrum will be automatically deposited into the wallet that sent the AVAX. We recommend use Metamask, but any AVAX wallet works.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel6">Buy Nostrum</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <h3>Buy Nostrum</h3>
+          Nostrum amount: <input type="number" class="form-control" id="nostrumBuyAmountInp" placeholder="1.0">
+          <br>
+          <div>Cost: <span id="avaxcost">0</span> AVAX (+ network fees)</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="btn-buysubmit" type="button" class="btn btn-primary" data-bs-dismiss="modal">Buy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./ico.js"></script>
+
+  <script type="text/javascript">
+    document.onreadystatechange = function () {
+      if (document.readyState == "complete"){
+        document.getElementById("btn-login").onclick = loginico;
+        document.getElementById("buyicobtn").onclick = showIcoInput;
+        document.getElementById("btn-buysubmit").onclick = buynostrum;
+        document.getElementById("nostrumBuyAmountInp").onchange = convertNostrum;
+      }
+    }
+  </script>
+      
+  </body>
+
+</html>

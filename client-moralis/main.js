@@ -53,7 +53,7 @@ async function setAvaxBalance() {
   let balanceElem = document.getElementById('avaxbalance');
 
   if (user) {
-    avaxBalance = await Moralis.Web3API.account.getNativeBalance({chain: 'avalanche testnet', address:user.get("ethAddress")})
+    avaxBalance = await Moralis.Web3API.account.getNativeBalance({chain: 'avalanche', address:user.get("ethAddress")})
     balanceElem.innerHTML = (avaxBalance.balance / (10**18)).toFixed(6);
     if (balanceElem.classList.contains('placeholder')) {
       balanceElem.classList.remove("placeholder");
@@ -70,7 +70,7 @@ async function setUserNostrum() {
   let balanceElem = document.getElementById('nostrumbalance');
 
   if (user) {
-    const options = {chain: "avalanche testnet", address:user.get("ethAddress") };
+    const options = {chain: "avalanche", address:user.get("ethAddress") };
     tokens = await Moralis.Web3API.account.getTokenBalances(options)
     nostrum = tokens.filter(function (t) {return t.token_address == addressContract.toLowerCase()});
     if(nostrum[0].balance > 9999999){
@@ -97,6 +97,7 @@ async function updateUserData() {
   setUserNostrum();
   setInfo();
   setChart();
+  setElectionTime();
 
   if (user) {
     document.getElementById('btn-login').innerHTML = user.get("ethAddress");

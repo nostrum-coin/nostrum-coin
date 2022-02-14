@@ -1,0 +1,42 @@
+.backcolor {
+    background: linear-gradient(180deg, rgba(31,29,54,1) 0%, rgba(63,51,81,1) 100%);
+  }
+  .textcolor {
+    color: white;
+  }
+  .buttoncolor {
+    background-color: #864879;
+    color: white;
+    border: none;
+  }
+  .buttoncolor:hover {
+    background-color: #E9A6A6;
+  }
+  .iconstack {
+    background-image: url(images/stack.png);
+    float: right;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+  }
+  .iconunstack {
+    background-image: url(images/unstack.png);
+    float: right;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+  }
+  .iconsend {
+    background-image: url(images/send.png);
+    float: right;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+  }
+  .iconvote {
+    background-image: url(images/vote.png);
+    float: right;
+    margin-left: 10px;
+    width: 32px;
+    height: 32px;
+  }
